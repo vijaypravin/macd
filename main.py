@@ -38,6 +38,7 @@ def check_macd():
                         buyce = int(current_price - 200)
                         if buyce % 100 == 0:
                             requests.post("https://ntfy.sh/Macd", data=f'Nifty: {current_price} BuyCE: {buyce}'.encode(encoding='utf-8'))
+                            requests.post("https://ntfy.sh/Pasu", data=f'Nifty: {current_price} BuyCE: {buyce}'.encode(encoding='utf-8'))
                         else:
                             remainder = buyce % 100
                             if remainder >= 50:
@@ -45,6 +46,7 @@ def check_macd():
                             else:
                                 rounded_buyce = (buyce // 100) * 100
                             requests.post("https://ntfy.sh/Macd", data=f'Nifty: {current_price} BuyCE: {rounded_buyce}'.encode(encoding='utf-8'))
+                            requests.post("https://ntfy.sh/Pasu", data=f'Nifty: {current_price} BuyCE: {rounded_buyce}'.encode(encoding='utf-8'))
                 elif (previous_macd_value > 0 and macd_value <= 0):
                     st.write("Sign change detected!")
                     symbols = ['^NSEI']
@@ -54,6 +56,7 @@ def check_macd():
                         buype = int(current_price + 200)
                         if buype % 100 == 0:
                             requests.post("https://ntfy.sh/Macd", data=f'Nifty: {current_price} BuyPE: {buype}'.encode(encoding='utf-8'))
+                            requests.post("https://ntfy.sh/Pasu", data=f'Nifty: {current_price} BuyPE: {buype}'.encode(encoding='utf-8'))
                         else:
                             remainder = buype % 100
                             if remainder >= 50:
@@ -61,6 +64,7 @@ def check_macd():
                             else:
                                 rounded_buyce = (buype // 100) * 100
                             requests.post("https://ntfy.sh/Macd", data=f'Nifty: {current_price} BuyPE: {rounded_buyce}'.encode(encoding='utf-8'))
+                            requests.post("https://ntfy.sh/Pasu", data=f'Nifty: {current_price} BuyPE: {rounded_buyce}'.encode(encoding='utf-8'))
             with open("previous_macd.txt", "w") as f:
                 f.write(str(macd_value))
         else:
