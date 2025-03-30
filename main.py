@@ -3,6 +3,7 @@ import streamlit.components.v1 as components
 import yfinance as yf
 import mysql.connector
 import os
+import requests
 
 def show_notification(title, body):
     html_code = f"""
@@ -53,14 +54,14 @@ def check_macd():
                         current_price = stock.info.get('regularMarketPrice')
                         buyce = int(current_price - 200)
                         if buyce % 100 == 0:
-                            show_notification("Streamlit Alert", f'Nifty: {current_price} \n BuyCE: {buyce}')
+                            requests.post("https://ntfy.sh/Macd", data=f'Nifty: {current_price} \n BuyCE: {buyce}'.encode(encoding='utf-8'))
                         else:
                             remainder = buyce % 100
                             if remainder >= 50:
                                 rounded_buyce = (buyce // 100 + 1) * 100
                             else:
                                 rounded_buyce = (buyce // 100) * 100
-                            show_notification("Streamlit Alert", f'(Nifty: {current_price}) \n BuyCE: {rounded_buyce}')
+                            requests.post("https://ntfy.sh/Macd", data=f'Nifty: {current_price}) \n BuyCE: {rounded_buyce}'.encode(encoding='utf-8'))
                 elif (previous_macd_value > 0 and macd_value <= 0):
                     st.write("Sign change detected!")
                     symbols = ['^NSEI']
@@ -69,14 +70,14 @@ def check_macd():
                         current_price = stock.info.get('regularMarketPrice')
                         buype = int(current_price + 200)
                         if buype % 100 == 0:
-                            show_notification("Streamlit Alert", f'Nifty: {current_price} BuyPE: {buype}')
+                            requests.post("https://ntfy.sh/Macd", data=f'Nifty: {current_price} BuyPE: {buype}'.encode(encoding='utf-8'))
                         else:
                             remainder = buype % 100
                             if remainder >= 50:
                                 rounded_buyce = (buype // 100 + 1) * 100
                             else:
                                 rounded_buyce = (buype // 100) * 100
-                            show_notification("Streamlit Alert", f'(Nifty: {current_price}) BuyPE: {rounded_buyce}')
+                            requests.post("https://ntfy.sh/Macd", data=f'Nifty: {current_price}) BuyPE: {rounded_buyce}'.encode(encoding='utf-8'))
             with open("previous_macd.txt", "w") as f:
                 f.write(str(macd_value))
         else:
