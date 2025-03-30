@@ -94,7 +94,7 @@ if st.button("Check MACD"):
     result_text = ""  # Initialize an empty string to store the results.
     while True:
         macd_result = check_macd()
-        result_text += macd_result + "\n"  # Append the result to the string.
+        result_text += macd_result  # Append the result to the string.
         st.text_area("MACD Results:", value=result_text, height=1000)
         #time.sleep(5) #Add a 5 second delay.
         #st.experimental_rerun() #re-run the script.
