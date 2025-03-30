@@ -35,14 +35,14 @@ def check_macd():
                         current_price = stock.info.get('regularMarketPrice')
                         buyce = int(current_price - 200)
                         if buyce % 100 == 0:
-                            st.write(f'Nifty: {current_price} \n BuyCE: {buyce}')
+                            st.success(f'Nifty: {current_price} \n BuyCE: {buyce}')
                         else:
                             remainder = buyce % 100
                             if remainder >= 50:
                                 rounded_buyce = (buyce // 100 + 1) * 100
                             else:
                                 rounded_buyce = (buyce // 100) * 100
-                            st.write(f'(Nifty: {current_price}) \n BuyCE: {rounded_buyce}')
+                            st.success(f'(Nifty: {current_price}) \n BuyCE: {rounded_buyce}')
                 elif (previous_macd_value > 0 and macd_value <= 0):
                     st.write("Sign change detected!")
                     symbols = ['^NSEI']
@@ -51,14 +51,14 @@ def check_macd():
                         current_price = stock.info.get('regularMarketPrice')
                         buype = int(current_price + 200)
                         if buype % 100 == 0:
-                            st.write(f'Nifty: {current_price} BuyPE: {buype}')
+                            st.success(f'Nifty: {current_price} BuyPE: {buype}')
                         else:
                             remainder = buype % 100
                             if remainder >= 50:
                                 rounded_buyce = (buype // 100 + 1) * 100
                             else:
                                 rounded_buyce = (buype // 100) * 100
-                            st.write(f'({symbol}: {current_price}) BuyPE: {rounded_buyce}')
+                            st.success(f'(Nifty: {current_price}) BuyPE: {rounded_buyce}')
             # Store the current macd value for the next iteration.
             with open("previous_macd.txt", "w") as f:
                 f.write(str(macd_value))
