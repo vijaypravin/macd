@@ -19,6 +19,8 @@ def show_browser_notification(title, message):
         }
     </script>
     """
+    # Replace the python variables into the javascript string.
+    notification_html = notification_html.replace("{title}", title).replace("{message}", message)
     st.components.v1.html(notification_html)
 
 def check_macd():
