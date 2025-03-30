@@ -4,22 +4,22 @@ import yfinance as yf
 import mysql.connector
 import os
 
-def show_browser_notification(title, message):
-    notification_html = """
+def show_notification(title, body):
+    html_code = f"""
     <script>
-        if ('Notification' in window) {
-            Notification.requestPermission().then(permission => {
-                console.log("Notification permission:", permission);
-                if (permission === 'granted') {
-                    new Notification('""" + title + """', { body: '""" + message + """' });
-                }
-            });
-        } else {
-            console.log("Notifications not supported");
-        }
+    function showNotification() {{
+        if ("Notification" in window) {{
+            Notification.requestPermission().then(permission => {{
+                if (permission === "granted") {{
+                    new Notification("{title}", {{ body: "{body}" }});
+                }}
+            }});
+        }}
+    }}
+    showNotification();
     </script>
     """
-    st.components.v1.html(notification_html)
+    components.html(html_code, height=0)
 
 def check_macd():
     try:
@@ -53,14 +53,14 @@ def check_macd():
                         current_price = stock.info.get('regularMarketPrice')
                         buyce = int(current_price - 200)
                         if buyce % 100 == 0:
-                            show_browser_notification("Streamlit Alert", f'Nifty: {current_price} \n BuyCE: {buyce}')
+                            show_notification("Streamlit Alert", f'Nifty: {current_price} \n BuyCE: {buyce}')
                         else:
                             remainder = buyce % 100
                             if remainder >= 50:
                                 rounded_buyce = (buyce // 100 + 1) * 100
                             else:
                                 rounded_buyce = (buyce // 100) * 100
-                            show_browser_notification("Streamlit Alert", f'(Nifty: {current_price}) \n BuyCE: {rounded_buyce}')
+                            show_notification("Streamlit Alert", f'(Nifty: {current_price}) \n BuyCE: {rounded_buyce}')
                 elif (previous_macd_value > 0 and macd_value <= 0):
                     st.write("Sign change detected!")
                     symbols = ['^NSEI']
@@ -69,14 +69,14 @@ def check_macd():
                         current_price = stock.info.get('regularMarketPrice')
                         buype = int(current_price + 200)
                         if buype % 100 == 0:
-                            show_browser_notification("Streamlit Alert", f'Nifty: {current_price} BuyPE: {buype}')
+                            show_notification("Streamlit Alert", f'Nifty: {current_price} BuyPE: {buype}')
                         else:
                             remainder = buype % 100
                             if remainder >= 50:
                                 rounded_buyce = (buype // 100 + 1) * 100
                             else:
                                 rounded_buyce = (buype // 100) * 100
-                            show_browser_notification("Streamlit Alert", f'(Nifty: {current_price}) BuyPE: {rounded_buyce}')
+                            show_notification("Streamlit Alert", f'(Nifty: {current_price}) BuyPE: {rounded_buyce}')
             with open("previous_macd.txt", "w") as f:
                 f.write(str(macd_value))
         else:
