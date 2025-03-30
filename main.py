@@ -106,4 +106,5 @@ def check_macd():
 st.title("MACD Analysis")
 
 if st.button("Check MACD"):
-    check_macd()
+    while True:
+        check_macd()
