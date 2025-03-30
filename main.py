@@ -35,12 +35,6 @@ def show_popup(title, message):
 
 def check_macd():
     try:
-        # Get password from environment variable
-        db_password = os.environ.get("DB_PASSWORD")
-        if not db_password:
-          st.error("DB_PASSWORD environment variable not set.")
-          return
-
         mydb = mysql.connector.connect(
             user="adminh0st1ng",
             password="1L0@dm1n",
