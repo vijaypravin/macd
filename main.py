@@ -4,34 +4,19 @@ import yfinance as yf
 import mysql.connector
 import os
 
-def show_popup(title, message):
-    try:
-        popup_html = f"""
-        <div id="popup" style="
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            border: 1px solid #ccc;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        ">
-            <h2>{title}</h2>
-            <p>{message}</p>
-            <button onclick="document.getElementById('popup').style.display='none'">Close</button>
-        </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {{
-                document.getElementById('popup').style.display = 'block';
+def show_browser_notification(title, message):
+    notification_html = f"""
+    <script>
+        if ('Notification' in window) {{
+            Notification.requestPermission().then(permission => {{
+                if (permission === 'granted') {{
+                    new Notification('{title}', {{ body: '{message}' }});
+                }}
             }});
-        </script>
-        """
-        components.html(popup_html, height=200)
-    except Exception as e:
-        st.error(f"Error displaying pop-up: {e}")
+        }}
+    </script>
+    """
+    components.html(notification_html, height=0)
 
 def check_macd():
     try:
@@ -65,14 +50,14 @@ def check_macd():
                         current_price = stock.info.get('regularMarketPrice')
                         buyce = int(current_price - 200)
                         if buyce % 100 == 0:
-                            show_popup("Alert", f'Nifty: {current_price} \n BuyCE: {buyce}')
+                            show_browser_notification("Streamlit Alert", f'Nifty: {current_price} \n BuyCE: {buyce}')
                         else:
                             remainder = buyce % 100
                             if remainder >= 50:
                                 rounded_buyce = (buyce // 100 + 1) * 100
                             else:
                                 rounded_buyce = (buyce // 100) * 100
-                            show_popup("Alert", f'(Nifty: {current_price}) \n BuyCE: {rounded_buyce}')
+                            show_browser_notification("Streamlit Alert", f'(Nifty: {current_price}) \n BuyCE: {rounded_buyce}')
                 elif (previous_macd_value > 0 and macd_value <= 0):
                     st.write("Sign change detected!")
                     symbols = ['^NSEI']
@@ -81,14 +66,14 @@ def check_macd():
                         current_price = stock.info.get('regularMarketPrice')
                         buype = int(current_price + 200)
                         if buype % 100 == 0:
-                            show_popup("Alert", f'Nifty: {current_price} BuyPE: {buype}')
+                            show_browser_notification("Streamlit Alert", f'Nifty: {current_price} BuyPE: {buype}')
                         else:
                             remainder = buype % 100
                             if remainder >= 50:
                                 rounded_buyce = (buype // 100 + 1) * 100
                             else:
                                 rounded_buyce = (buype // 100) * 100
-                            show_popup("Alert", f'(Nifty: {current_price}) BuyPE: {rounded_buyce}')
+                            show_browser_notification("Streamlit Alert", f'(Nifty: {current_price}) BuyPE: {rounded_buyce}')
             with open("previous_macd.txt", "w") as f:
                 f.write(str(macd_value))
         else:
