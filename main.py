@@ -5,22 +5,6 @@ import mysql.connector
 import os
 import requests
 
-def show_notification(title, body):
-    html_code = f"""
-    <script>
-    function showNotification() {{
-        if ("Notification" in window) {{
-            Notification.requestPermission().then(permission => {{
-                if (permission === "granted") {{
-                    new Notification("{title}", {{ body: "{body}" }});
-                }}
-            }});
-        }}
-    }}
-    showNotification();
-    </script>
-    """
-    components.html(html_code, height=0)
 
 def check_macd():
     try:
