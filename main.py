@@ -44,7 +44,7 @@ def check_macd():
                                 rounded_buyce = (buyce // 100 + 1) * 100
                             else:
                                 rounded_buyce = (buyce // 100) * 100
-                            requests.post("https://ntfy.sh/Macd", data=f'Nifty: {current_price}) BuyCE: {rounded_buyce}'.encode(encoding='utf-8'))
+                            requests.post("https://ntfy.sh/Macd", data=f'Nifty: {current_price} BuyCE: {rounded_buyce}'.encode(encoding='utf-8'))
                 elif (previous_macd_value > 0 and macd_value <= 0):
                     st.write("Sign change detected!")
                     symbols = ['^NSEI']
@@ -60,7 +60,7 @@ def check_macd():
                                 rounded_buyce = (buype // 100 + 1) * 100
                             else:
                                 rounded_buyce = (buype // 100) * 100
-                            requests.post("https://ntfy.sh/Macd", data=f'Nifty: {current_price}) BuyPE: {rounded_buyce}'.encode(encoding='utf-8'))
+                            requests.post("https://ntfy.sh/Macd", data=f'Nifty: {current_price} BuyPE: {rounded_buyce}'.encode(encoding='utf-8'))
             with open("previous_macd.txt", "w") as f:
                 f.write(str(macd_value))
         else:
