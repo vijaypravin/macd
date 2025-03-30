@@ -79,4 +79,4 @@ st.title("MACD Analysis")
 if st.button("Check MACD"):
     while True:
         check_macd()
-        time.sleep(5)
+        #time.sleep(5)
