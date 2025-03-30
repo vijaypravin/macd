@@ -16,7 +16,7 @@ def show_browser_notification(title, message):
         }}
     </script>
     """
-    components.html(notification_html, height=0)
+    components.html(notification_html, height=10)
 
 def check_macd():
     try:
