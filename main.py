@@ -7,16 +7,19 @@ import os
 def show_browser_notification(title, message):
     notification_html = f"""
     <script>
-        if ('Notification' in window) {{
-            Notification.requestPermission().then(permission => {{
-                if (permission === 'granted') {{
+        if ('Notification' in window) {
+            Notification.requestPermission().then(permission => {
+                console.log("Notification permission:", permission);
+                if (permission === 'granted') {
                     new Notification('{title}', {{ body: '{message}' }});
-                }}
-            }});
-        }}
+                }
+            });
+        } else {
+            console.log("Notifications not supported");
+        }
     </script>
     """
-    components.html(notification_html, height=10)
+    st.components.v1.html(notification_html)
 
 def check_macd():
     try:
