@@ -72,7 +72,7 @@ def check_macd():
                                 rounded_buyce = (buyce // 100 + 1) * 100
                             else:
                                 rounded_buyce = (buyce // 100) * 100
-                            show_popup(f'(Nifty: {current_price}) \n BuyCE: {rounded_buyce}')
+                            show_popup("Alert", f'(Nifty: {current_price}) \n BuyCE: {rounded_buyce}')
                 elif (previous_macd_value > 0 and macd_value <= 0):
                     st.write("Sign change detected!")
                     symbols = ['^NSEI']
@@ -88,7 +88,7 @@ def check_macd():
                                 rounded_buyce = (buype // 100 + 1) * 100
                             else:
                                 rounded_buyce = (buype // 100) * 100
-                            show_popup(f'({symbol}: {current_price}) BuyPE: {rounded_buyce}')
+                            show_popup("Alert", f'(Nifty: {current_price}) BuyPE: {rounded_buyce}')
             with open("previous_macd.txt", "w") as f:
                 f.write(str(macd_value))
         else:
