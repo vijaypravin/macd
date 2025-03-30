@@ -1,9 +1,8 @@
 import streamlit as st
-import streamlit.components.v1 as components
 import yfinance as yf
 import mysql.connector
-import os
 import requests
+import time
 
 
 def check_macd():
@@ -38,14 +37,14 @@ def check_macd():
                         current_price = stock.info.get('regularMarketPrice')
                         buyce = int(current_price - 200)
                         if buyce % 100 == 0:
-                            requests.post("https://ntfy.sh/Macd", data=f'Nifty: {current_price} \n BuyCE: {buyce}'.encode(encoding='utf-8'))
+                            requests.post("https://ntfy.sh/Macd", data=f'Nifty: {current_price} BuyCE: {buyce}'.encode(encoding='utf-8'))
                         else:
                             remainder = buyce % 100
                             if remainder >= 50:
                                 rounded_buyce = (buyce // 100 + 1) * 100
                             else:
                                 rounded_buyce = (buyce // 100) * 100
-                            requests.post("https://ntfy.sh/Macd", data=f'Nifty: {current_price}) \n BuyCE: {rounded_buyce}'.encode(encoding='utf-8'))
+                            requests.post("https://ntfy.sh/Macd", data=f'Nifty: {current_price}) BuyCE: {rounded_buyce}'.encode(encoding='utf-8'))
                 elif (previous_macd_value > 0 and macd_value <= 0):
                     st.write("Sign change detected!")
                     symbols = ['^NSEI']
