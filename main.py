@@ -43,7 +43,7 @@ def check_macd():
 
         mydb = mysql.connector.connect(
             user="adminh0st1ng",
-            password=1L0@dm1n,
+            password="1L0@dm1n",
             host="macd.mysql.database.azure.com",
             port=3306,
             database="macd_db",
